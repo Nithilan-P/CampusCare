@@ -3,6 +3,8 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const morgan = require('morgan');
 const connectDB = require('./config/db');
+const errorHandler = require('./middleware/errorHandler');
+const authRoutes = require('./routes/authRoutes');
 
 dotenv.config();
 
@@ -21,6 +23,9 @@ app.get('/api/health', (req, res) => {
     message: 'Server is running',
   });
 });
+
+app.use('/api/auth', authRoutes);
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
