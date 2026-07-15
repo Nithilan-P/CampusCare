@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const connectDB = require('./config/db');
 const errorHandler = require('./middleware/errorHandler');
 const authRoutes = require('./routes/authRoutes');
+const complaintRoutes = require('./routes/complaintRoutes');
 
 dotenv.config();
 
@@ -25,6 +26,10 @@ app.get('/api/health', (req, res) => {
 });
 
 app.use('/api/auth', authRoutes);
+app.use('/api/complaints', (req, res, next) => {
+  console.log('Complaint mount hit:', req.method, req.originalUrl);
+  next();
+}, complaintRoutes);
 app.use(errorHandler);
 
 app.listen(PORT, () => {
