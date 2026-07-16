@@ -6,5 +6,6 @@ build/
 .env
 .env.local
 server/.env
+client/.env
 server/.env.local
 *.log
