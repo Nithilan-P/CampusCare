@@ -244,6 +244,145 @@ const deleteComplaint = async (req, res, next) => {
   }
 };
 
+const updateComplaintStatus = async (req, res, next) => {
+  try {
+    const complaint = await Complaint.findById(req.params.id);
+
+    if (!complaint) {
+      return res.status(404).json({
+        success: false,
+        message: 'Complaint not found',
+      });
+    }
+
+    const isAssignedStaff = complaint.assignedTo?.toString() === req.user._id.toString();
+
+    if (!isAssignedStaff) {
+      return res.status(403).json({
+        success: false,
+        message: 'Not authorized to update this complaint',
+      });
+    }
+
+    const { status, note } = req.body;
+    const allowedStatuses = ['Assigned', 'In Progress', 'Resolved'];
+
+    if (!allowedStatuses.includes(status)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid status value',
+      });
+    }
+
+    if (status === 'Resolved' && req.file?.path) {
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        folder: 'campuscare',
+      });
+      complaint.completionImage = result.secure_url;
+      fs.unlinkSync(req.file.path);
+    }
+
+    complaint.status = status;
+    complaint.timeline.push({
+      status,
+      note: note || `Status updated to ${status}`,
+      date: new Date(),
+    });
+
+    await complaint.save();
+
+    const updatedComplaint = await Complaint.findById(complaint._id)
+      .populate('studentId', 'name email')
+      .populate('assignedTo', 'name email');
+
+    res.status(200).json({
+      success: true,
+      data: updatedComplaint,
+      message: 'Complaint status updated successfully',
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const addStaffNotes = async (req, res, next) => {
+  try {
+    const complaint = await Complaint.findById(req.params.id);
+
+    if (!complaint) {
+      return res.status(404).json({
+        success: false,
+        message: 'Complaint not found',
+      });
+    }
+
+    const isAssignedStaff = complaint.assignedTo?.toString() === req.user._id.toString();
+
+    if (!isAssignedStaff) {
+      return res.status(403).json({
+        success: false,
+        message: 'Not authorized to update this complaint',
+      });
+    }
+
+    const { staffNotes } = req.body;
+
+    complaint.staffNotes = staffNotes;
+    await complaint.save();
+
+    const updatedComplaint = await Complaint.findById(complaint._id)
+      .populate('studentId', 'name email')
+      .populate('assignedTo', 'name email');
+
+    res.status(200).json({
+      success: true,
+      data: updatedComplaint,
+      message: 'Notes updated successfully',
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const assignComplaint = async (req, res, next) => {
+  try {
+    const complaint = await Complaint.findById(req.params.id);
+
+    if (!complaint) {
+      return res.status(404).json({
+        success: false,
+        message: 'Complaint not found',
+      });
+    }
+
+    const { staffId } = req.body;
+
+    complaint.assignedTo = staffId;
+    complaint.status = 'Assigned';
+    complaint.timeline.push({
+      status: 'Assigned',
+      note: 'Complaint assigned to staff',
+      date: new Date(),
+    });
+
+    await complaint.save();
+
+    const updatedComplaint = await Complaint.findById(complaint._id)
+      .populate('studentId', 'name email')
+      .populate('assignedTo', 'name email');
+
+    res.status(200).json({
+      success: true,
+      data: updatedComplaint,
+      message: 'Complaint assigned successfully',
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+
 module.exports = {
   createComplaint,
   getMyComplaints,
@@ -252,4 +391,7 @@ module.exports = {
   getComplaintById,
   updateComplaint,
   deleteComplaint,
+  updateComplaintStatus,
+  addStaffNotes,
+  assignComplaint,
 };

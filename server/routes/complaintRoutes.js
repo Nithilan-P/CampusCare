@@ -10,6 +10,9 @@ const {
   getComplaintById,
   updateComplaint,
   deleteComplaint,
+  updateComplaintStatus,
+  addStaffNotes,
+  assignComplaint,
 } = require('../controllers/complaintController');
 
 const router = express.Router();
@@ -23,5 +26,8 @@ router.get('/assigned', protect, authorize('staff'), asyncHandler(getAssignedCom
 router.get('/:id', protect, asyncHandler(getComplaintById));
 router.put('/:id', protect, asyncHandler(updateComplaint));
 router.delete('/:id', protect, authorize('admin'), asyncHandler(deleteComplaint));
+router.put('/:id/assign', protect, authorize('admin'), asyncHandler(assignComplaint));
+router.put('/:id/status', protect, authorize('staff'), upload, asyncHandler(updateComplaintStatus));
+router.put('/:id/notes', protect, authorize('staff'), asyncHandler(addStaffNotes));
 
 module.exports = router;

@@ -9,6 +9,7 @@ const errorHandler = require('./middleware/errorHandler');
 const authRoutes = require('./routes/authRoutes');
 const complaintRoutes = require('./routes/complaintRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 
 const app = express();
@@ -33,6 +34,7 @@ app.use('/api/complaints', (req, res, next) => {
   next();
 }, complaintRoutes);
 app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/users', userRoutes);
 app.use(errorHandler);
 
 app.listen(PORT, () => {

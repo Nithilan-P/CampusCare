@@ -16,3 +16,10 @@ export const getComplaintById = (id) => api.get(`/complaints/${id}`);
 export const updateComplaint = (id, payload) => api.put(`/complaints/${id}`, payload);
 
 export const deleteComplaint = (id) => api.delete(`/complaints/${id}`);
+
+export const updateComplaintStatus = (id, formData) =>
+  api.put(`/complaints/${id}/status`, formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+
+export const addStaffNotes = (id, payload) => api.put(`/complaints/${id}/notes`, payload);

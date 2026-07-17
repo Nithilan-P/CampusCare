@@ -2,15 +2,21 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import ProtectedRoute from './routes/ProtectedRoute';
 import RoleRoute from './routes/RoleRoute';
 import StudentLayout from './layouts/StudentLayout';
+import StaffLayout from './layouts/StaffLayout';
 
 import Login from './pages/public/Login';
 import Register from './pages/public/Register';
 
-import Dashboard from './pages/student/Dashboard';
+import StudentDashboard from './pages/student/Dashboard';
 import NewComplaint from './pages/student/NewComplaint';
 import MyComplaints from './pages/student/MyComplaints';
-import ComplaintDetails from './pages/student/ComplaintDetails';
-import Profile from './pages/student/Profile';
+import StudentComplaintDetails from './pages/student/ComplaintDetails';
+import StudentProfile from './pages/student/Profile';
+
+import StaffDashboard from './pages/staff/Dashboard';
+import AssignedComplaints from './pages/staff/AssignedComplaints';
+import StaffComplaintDetails from './pages/staff/ComplaintDetails';
+import StaffProfile from './pages/staff/Profile';
 
 function Unauthorized() {
   return (
@@ -27,25 +33,31 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Public routes */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/unauthorized" element={<Unauthorized />} />
 
-        {/* Protected + role-scoped routes */}
         <Route element={<ProtectedRoute />}>
           <Route element={<RoleRoute allowedRoles={['student']} />}>
             <Route element={<StudentLayout />}>
-              <Route path="/student/dashboard" element={<Dashboard />} />
+              <Route path="/student/dashboard" element={<StudentDashboard />} />
               <Route path="/student/complaints/new" element={<NewComplaint />} />
               <Route path="/student/complaints" element={<MyComplaints />} />
-              <Route path="/student/complaints/:id" element={<ComplaintDetails />} />
-              <Route path="/student/profile" element={<Profile />} />
+              <Route path="/student/complaints/:id" element={<StudentComplaintDetails />} />
+              <Route path="/student/profile" element={<StudentProfile />} />
+            </Route>
+          </Route>
+
+          <Route element={<RoleRoute allowedRoles={['staff']} />}>
+            <Route element={<StaffLayout />}>
+              <Route path="/staff/dashboard" element={<StaffDashboard />} />
+              <Route path="/staff/complaints" element={<AssignedComplaints />} />
+              <Route path="/staff/complaints/:id" element={<StaffComplaintDetails />} />
+              <Route path="/staff/profile" element={<StaffProfile />} />
             </Route>
           </Route>
         </Route>
 
-        {/* Default redirect */}
         <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
