@@ -102,8 +102,9 @@ const getAllComplaints = async (req, res, next) => {
 
     let filteredComplaints = complaints;
     if (department) {
-      filteredComplaints = complaints.filter(
-        (complaint) => complaint.studentId?.department === department
+      const searchTerm = department.toLowerCase();
+      filteredComplaints = complaints.filter((complaint) =>
+        complaint.studentId?.department?.toLowerCase().includes(searchTerm)
       );
     }
 
@@ -232,7 +233,7 @@ const deleteComplaint = async (req, res, next) => {
       });
     }
 
-    await complaint.remove();
+    await Complaint.findByIdAndDelete(req.params.id);
 
     res.status(200).json({
       success: true,
@@ -381,6 +382,44 @@ const assignComplaint = async (req, res, next) => {
   }
 };
 
+const updateComplaintPriority = async (req, res, next) => {
+  try {
+    const complaint = await Complaint.findById(req.params.id);
+
+    if (!complaint) {
+      return res.status(404).json({
+        success: false,
+        message: 'Complaint not found',
+      });
+    }
+
+    const { priority } = req.body;
+    const allowedPriorities = ['Low', 'Medium', 'High'];
+
+    if (!allowedPriorities.includes(priority)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid priority value',
+      });
+    }
+
+    complaint.priority = priority;
+    await complaint.save();
+
+    const updatedComplaint = await Complaint.findById(complaint._id)
+      .populate('studentId', 'name email')
+      .populate('assignedTo', 'name email');
+
+    res.status(200).json({
+      success: true,
+      data: updatedComplaint,
+      message: 'Priority updated successfully',
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 
 
 module.exports = {
@@ -394,4 +433,5 @@ module.exports = {
   updateComplaintStatus,
   addStaffNotes,
   assignComplaint,
+  updateComplaintPriority,
 };

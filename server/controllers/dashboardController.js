@@ -1,4 +1,5 @@
 const Complaint = require('../models/Complaint');
+const User = require('../models/User');
 
 const getStudentDashboard = async (req, res, next) => {
   try {
@@ -59,7 +60,60 @@ const getStaffDashboard = async (req, res, next) => {
   }
 };
 
+const getAdminDashboard = async (req, res, next) => {
+  try {
+    const [totalComplaints, pending, assigned, inProgress, resolved] = await Promise.all([
+      Complaint.countDocuments(),
+      Complaint.countDocuments({ status: 'Pending' }),
+      Complaint.countDocuments({ status: 'Assigned' }),
+      Complaint.countDocuments({ status: 'In Progress' }),
+      Complaint.countDocuments({ status: 'Resolved' }),
+    ]);
+
+    const [totalStudents, totalStaff] = await Promise.all([
+      User.countDocuments({ role: 'student' }),
+      User.countDocuments({ role: 'staff' }),
+    ]);
+
+    const categoryBreakdown = await Complaint.aggregate([
+      { $group: { _id: '$category', count: { $sum: 1 } } },
+    ]);
+
+    const priorityBreakdown = await Complaint.aggregate([
+      { $group: { _id: '$priority', count: { $sum: 1 } } },
+    ]);
+
+    const recentComplaints = await Complaint.find()
+      .sort({ createdAt: -1 })
+      .limit(5)
+      .populate('studentId', 'name email')
+      .populate('assignedTo', 'name email');
+
+    res.status(200).json({
+      success: true,
+      data: {
+        stats: {
+          totalComplaints,
+          pending,
+          assigned,
+          inProgress,
+          resolved,
+          totalStudents,
+          totalStaff,
+        },
+        categoryBreakdown,
+        priorityBreakdown,
+        recentComplaints,
+      },
+      message: 'Admin dashboard stats fetched successfully',
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getStudentDashboard,
   getStaffDashboard,
+  getAdminDashboard,
 };

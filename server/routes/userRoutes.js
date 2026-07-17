@@ -2,7 +2,7 @@ const express = require('express');
 const { body } = require('express-validator');
 const { protect, authorize } = require('../middleware/auth');
 const { asyncHandler } = require('../middleware/errorHandler');
-const { createStaff } = require('../controllers/userController');
+const { createStaff, getUsers, updateUser, deleteUser } = require('../controllers/userController');
 
 const router = express.Router();
 
@@ -17,5 +17,9 @@ router.post(
   ],
   asyncHandler(createStaff)
 );
+
+router.get('/', protect, authorize('admin'), asyncHandler(getUsers));
+router.put('/:id', protect, authorize('admin'), asyncHandler(updateUser));
+router.delete('/:id', protect, authorize('admin'), asyncHandler(deleteUser));
 
 module.exports = router;

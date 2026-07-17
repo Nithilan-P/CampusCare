@@ -23,3 +23,7 @@ export const updateComplaintStatus = (id, formData) =>
   });
 
 export const addStaffNotes = (id, payload) => api.put(`/complaints/${id}/notes`, payload);
+
+export const assignComplaint = (id, payload) => api.put(`/complaints/${id}/assign`, payload);
+
+export const updateComplaintPriority = (id, payload) => api.put(`/complaints/${id}/priority`, payload);
