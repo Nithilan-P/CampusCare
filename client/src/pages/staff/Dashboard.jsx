@@ -5,9 +5,9 @@ import { useAuth } from '../../context/AuthContext';
 
 function StatCard({ label, value, accent }) {
   return (
-    <div className="rounded-xl border border-border bg-surface p-5 shadow-sm">
-      <p className="text-sm text-text-secondary">{label}</p>
-      <p className={`mt-2 text-3xl font-semibold ${accent}`}>{value}</p>
+    <div className="rounded-xl border border-border bg-surface p-4 shadow-sm sm:p-5">
+      <p className="text-xs text-text-secondary sm:text-sm">{label}</p>
+      <p className={`mt-2 text-2xl font-semibold sm:text-3xl ${accent}`}>{value}</p>
     </div>
   );
 }
@@ -67,12 +67,12 @@ function Dashboard() {
         <p className="text-text-secondary">Loading...</p>
       ) : (
         <>
-          <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mb-8 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
             <StatCard label="Total Assigned" value={stats.total} accent="text-text-primary" />
             <StatCard label="Assigned (New)" value={stats.assigned} accent="text-warning" />
             <StatCard label="In Progress" value={stats.inProgress} accent="text-primary" />
             <StatCard label="Resolved" value={stats.resolved} accent="text-success" />
-          </div>
+          </div>  
 
           <div className="rounded-xl border border-border bg-surface p-6 shadow-sm">
             <div className="mb-4 flex items-center justify-between">

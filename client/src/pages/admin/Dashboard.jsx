@@ -20,9 +20,9 @@ const PRIORITY_COLORS = { High: '#F43F5E', Medium: '#F59E0B', Low: '#64748B' };
 
 function StatCard({ label, value, accent }) {
   return (
-    <div className="rounded-xl border border-border bg-surface p-5 shadow-sm">
-      <p className="text-sm text-text-secondary">{label}</p>
-      <p className={`mt-2 text-3xl font-semibold ${accent}`}>{value}</p>
+    <div className="rounded-xl border border-border bg-surface p-4 shadow-sm sm:p-5">
+      <p className="text-xs text-text-secondary sm:text-sm">{label}</p>
+      <p className={`mt-2 text-2xl font-semibold sm:text-3xl ${accent}`}>{value}</p>
     </div>
   );
 }
@@ -88,22 +88,22 @@ function Dashboard() {
         <p className="text-sm text-text-secondary">Overview of all campus complaints and users.</p>
       </div>
 
-      <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mb-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         <StatCard label="Total Complaints" value={stats.totalComplaints} accent="text-text-primary" />
         <StatCard label="Pending" value={stats.pending} accent="text-warning" />
         <StatCard label="In Progress" value={stats.assigned + stats.inProgress} accent="text-primary" />
         <StatCard label="Resolved" value={stats.resolved} accent="text-success" />
       </div>
 
-      <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <div className="mb-8 grid grid-cols-2 gap-3 sm:gap-4">
         <StatCard label="Total Students" value={stats.totalStudents} accent="text-text-primary" />
         <StatCard label="Total Staff" value={stats.totalStaff} accent="text-text-primary" />
       </div>
 
       <div className="mb-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <div className="rounded-xl border border-border bg-surface p-6 shadow-sm">
-          <h2 className="mb-4 text-lg font-semibold text-text-primary">Complaints by Category</h2>
-          <ResponsiveContainer width="100%" height={280}>
+        <div className="rounded-xl border border-border bg-surface p-4 shadow-sm sm:p-6">
+          <h2 className="mb-4 text-base font-semibold text-text-primary sm:text-lg">Complaints by Category</h2>
+          <ResponsiveContainer width="100%" height={240}>
             <BarChart data={categoryBreakdown}>
               <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" />
               <XAxis dataKey="name" tick={{ fontSize: 12, fill: '#64748B' }} />
@@ -118,9 +118,9 @@ function Dashboard() {
           </ResponsiveContainer>
         </div>
 
-        <div className="rounded-xl border border-border bg-surface p-6 shadow-sm">
-          <h2 className="mb-4 text-lg font-semibold text-text-primary">Complaints by Priority</h2>
-          <ResponsiveContainer width="100%" height={280}>
+        <div className="rounded-xl border border-border bg-surface p-4 shadow-sm sm:p-6">
+          <h2 className="mb-4 text-base font-semibold text-text-primary sm:text-lg">Complaints by Priority</h2>
+          <ResponsiveContainer width="100%" height={240}>
             <PieChart>
               <Pie
                 data={priorityBreakdown}
@@ -142,9 +142,9 @@ function Dashboard() {
         </div>
       </div>
 
-      <div className="rounded-xl border border-border bg-surface p-6 shadow-sm">
+      <div className="rounded-xl border border-border bg-surface p-4 shadow-sm sm:p-6">
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-text-primary">Recent Complaints</h2>
+          <h2 className="text-base font-semibold text-text-primary sm:text-lg">Recent Complaints</h2>
           <Link to="/admin/complaints" className="text-sm font-medium text-primary hover:underline">
             View all
           </Link>

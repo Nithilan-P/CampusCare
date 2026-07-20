@@ -69,11 +69,11 @@ function AllComplaints() {
         <p className="text-sm text-text-secondary">View and manage every complaint across campus.</p>
       </div>
 
-      <div className="mb-4 flex flex-wrap gap-3 rounded-xl border border-border bg-surface p-4 shadow-sm">
+      <div className="mb-4 grid grid-cols-2 gap-2 rounded-xl border border-border bg-surface p-3 shadow-sm sm:flex sm:flex-wrap sm:gap-3 sm:p-4">
         <select
           value={filterStatus}
           onChange={(e) => setFilterStatus(e.target.value)}
-          className="rounded-lg border border-border px-3 py-2 text-sm text-text-primary focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+          className="w-full rounded-lg border border-border px-2 py-2 text-xs text-text-primary focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary sm:w-auto sm:px-3 sm:text-sm"
         >
           <option value="">All statuses</option>
           {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
@@ -82,7 +82,7 @@ function AllComplaints() {
         <select
           value={filterCategory}
           onChange={(e) => setFilterCategory(e.target.value)}
-          className="rounded-lg border border-border px-3 py-2 text-sm text-text-primary focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+          className="w-full rounded-lg border border-border px-2 py-2 text-xs text-text-primary focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary sm:w-auto sm:px-3 sm:text-sm"
         >
           <option value="">All categories</option>
           {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
@@ -91,7 +91,7 @@ function AllComplaints() {
         <select
           value={filterPriority}
           onChange={(e) => setFilterPriority(e.target.value)}
-          className="rounded-lg border border-border px-3 py-2 text-sm text-text-primary focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+          className="w-full rounded-lg border border-border px-2 py-2 text-xs text-text-primary focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary sm:w-auto sm:px-3 sm:text-sm"
         >
           <option value="">All priorities</option>
           {PRIORITIES.map((p) => <option key={p} value={p}>{p}</option>)}
@@ -102,7 +102,7 @@ function AllComplaints() {
           placeholder="Filter by department..."
           value={filterDepartment}
           onChange={(e) => setFilterDepartment(e.target.value)}
-          className="flex-1 min-w-[160px] rounded-lg border border-border px-3 py-2 text-sm text-text-primary focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+          className="col-span-2 w-full rounded-lg border border-border px-2 py-2 text-xs text-text-primary focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary sm:col-span-1 sm:min-w-[160px] sm:flex-1 sm:px-3 sm:text-sm"
         />
       </div>
 
@@ -110,13 +110,13 @@ function AllComplaints() {
         <div className="mb-4 rounded-lg bg-danger/10 px-4 py-3 text-sm text-danger">{error}</div>
       )}
 
-      <div className="overflow-hidden rounded-xl border border-border bg-surface shadow-sm">
+      <div className="overflow-x-auto rounded-xl border border-border bg-surface shadow-sm">
         {loading ? (
           <p className="p-6 text-sm text-text-secondary">Loading...</p>
         ) : complaints.length === 0 ? (
           <p className="p-6 text-sm text-text-secondary">No complaints found.</p>
         ) : (
-          <table className="w-full text-left text-sm">
+          <table className="w-full min-w-[700px] text-left text-sm">
             <thead className="border-b border-border bg-background">
               <tr>
                 <th className="px-4 py-3 font-medium text-text-secondary">Title</th>

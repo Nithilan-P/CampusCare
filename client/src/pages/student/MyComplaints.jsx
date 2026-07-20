@@ -69,14 +69,14 @@ function MyComplaints() {
 
   return (
     <div>
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-semibold text-text-primary">My Complaints</h1>
           <p className="text-sm text-text-secondary">View and track all complaints you've submitted.</p>
         </div>
         <Link
           to="/student/complaints/new"
-          className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white transition hover:bg-primary-dark"
+          className="inline-block self-start rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white transition hover:bg-primary-dark"
         >
           New Complaint
         </Link>
@@ -131,20 +131,20 @@ function MyComplaints() {
         <div className="mb-4 rounded-lg bg-danger/10 px-4 py-3 text-sm text-danger">{error}</div>
       )}
 
-      <div className="overflow-hidden rounded-xl border border-border bg-surface shadow-sm">
+      <div className="overflow-x-auto rounded-xl border border-border bg-surface shadow-sm">
         {loading ? (
           <p className="p-6 text-sm text-text-secondary">Loading...</p>
         ) : complaints.length === 0 ? (
           <p className="p-6 text-sm text-text-secondary">No complaints found.</p>
         ) : (
-          <table className="w-full text-left text-sm">
+          <table className="w-full min-w-[640px] text-left text-sm">
             <thead className="border-b border-border bg-background">
               <tr>
                 <th className="px-4 py-3 font-medium text-text-secondary">Title</th>
                 <th className="px-4 py-3 font-medium text-text-secondary">Category</th>
                 <th className="px-4 py-3 font-medium text-text-secondary">Location</th>
                 <th className="px-4 py-3 font-medium text-text-secondary">Priority</th>
-                <th className="px-4 py-3 font-medium text-text-secondary">Status</th>
+                <th className="px-4 py-3 pl-6 font-medium text-text-secondary">Status</th>
                 <th className="px-4 py-3 font-medium text-text-secondary">Submitted</th>
               </tr>
             </thead>

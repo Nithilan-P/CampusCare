@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useNavigate } from 'react-router-dom';
 import { createComplaint } from '../../api/complaints';
+import CustomSelect from '../../components/CustomSelect';
 
 const CATEGORIES = ['Electrical', 'Plumbing', 'Furniture', 'Internet', 'Cleaning', 'Others'];
 const PRIORITIES = ['Low', 'Medium', 'High'];
@@ -24,6 +25,7 @@ function NewComplaint() {
 
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm({
@@ -116,46 +118,42 @@ function NewComplaint() {
           )}
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <label htmlFor="category" className="mb-1 block text-sm font-medium text-text-primary">
-              Category
-            </label>
-            <select
-              id="category"
-              {...register('category')}
+            <label className="mb-1 block text-sm font-medium text-text-primary">Category</label>
+            <Controller
+              name="category"
+              control={control}
               defaultValue=""
-              className="w-full rounded-lg border border-border px-3 py-2 text-text-primary focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-            >
-              <option value="" disabled>
-                Select category
-              </option>
-              {CATEGORIES.map((cat) => (
-                <option key={cat} value={cat}>
-                  {cat}
-                </option>
-              ))}
-            </select>
+              render={({ field }) => (
+                <CustomSelect
+                  options={CATEGORIES.map((cat) => ({ value: cat, label: cat }))}
+                  value={field.value}
+                  onChange={field.onChange}
+                  placeholder="Select category"
+                  error={errors.category}
+                />
+              )}
+            />
             {errors.category && (
               <p className="mt-1 text-sm text-danger">{errors.category.message}</p>
             )}
           </div>
 
           <div>
-            <label htmlFor="priority" className="mb-1 block text-sm font-medium text-text-primary">
-              Priority
-            </label>
-            <select
-              id="priority"
-              {...register('priority')}
-              className="w-full rounded-lg border border-border px-3 py-2 text-text-primary focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-            >
-              {PRIORITIES.map((p) => (
-                <option key={p} value={p}>
-                  {p}
-                </option>
-              ))}
-            </select>
+            <label className="mb-1 block text-sm font-medium text-text-primary">Priority</label>
+            <Controller
+              name="priority"
+              control={control}
+              render={({ field }) => (
+                <CustomSelect
+                  options={PRIORITIES.map((p) => ({ value: p, label: p }))}
+                  value={field.value}
+                  onChange={field.onChange}
+                  placeholder="Select priority"
+                />
+              )}
+            />
           </div>
         </div>
 

@@ -5,9 +5,9 @@ import { useAuth } from '../../context/AuthContext';
 
 function StatCard({ label, value, accent }) {
   return (
-    <div className="rounded-xl border border-border bg-surface p-5 shadow-sm">
-      <p className="text-sm text-text-secondary">{label}</p>
-      <p className={`mt-2 text-3xl font-semibold ${accent}`}>{value}</p>
+    <div className="rounded-xl border border-border bg-surface p-4 shadow-sm sm:p-5">
+      <p className="text-xs text-text-secondary sm:text-sm">{label}</p>
+      <p className={`mt-2 text-2xl font-semibold sm:text-3xl ${accent}`}>{value}</p>
     </div>
   );
 }
@@ -52,7 +52,7 @@ function Dashboard() {
 
   return (
     <div>
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-semibold text-text-primary">
             Welcome back, {user?.name?.split(' ')[0]}
@@ -61,7 +61,7 @@ function Dashboard() {
         </div>
         <Link
           to="/student/complaints/new"
-          className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white transition hover:bg-primary-dark"
+          className="inline-block self-start rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white transition hover:bg-primary-dark"
         >
           New Complaint
         </Link>
@@ -75,7 +75,7 @@ function Dashboard() {
         <p className="text-text-secondary">Loading...</p>
       ) : (
         <>
-          <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mb-8 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
             <StatCard label="Total Complaints" value={stats.total} accent="text-text-primary" />
             <StatCard label="Pending" value={stats.pending} accent="text-warning" />
             <StatCard label="In Progress" value={stats.inProgress} accent="text-primary" />

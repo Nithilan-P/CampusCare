@@ -7,6 +7,7 @@ import AdminLayout from './layouts/AdminLayout';
 
 import Login from './pages/public/Login';
 import Register from './pages/public/Register';
+import Landing from './pages/public/Landing';
 
 import StudentDashboard from './pages/student/Dashboard';
 import NewComplaint from './pages/student/NewComplaint';
@@ -79,7 +80,7 @@ function App() {
           </Route>
         </Route>
 
-        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/" element={<Landing />} />
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </BrowserRouter>

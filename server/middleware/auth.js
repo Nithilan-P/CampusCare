@@ -29,6 +29,13 @@ const protect = async (req, res, next) => {
       });
     }
 
+    if (!req.user.isActive) {
+      return res.status(403).json({
+        success: false,
+        message: 'Your account has been disabled. Please contact an administrator.',
+      });
+    }
+
     next();
   } catch (error) {
     return res.status(401).json({

@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useAuth } from '../../context/AuthContext';
 import { updateProfile, changePassword } from '../../api/auth';
+import PasswordInput from '../../components/PasswordInput';
 
 const profileSchema = z.object({
   name: z.string().trim().min(1, 'Name is required'),
@@ -182,12 +183,7 @@ function PasswordForm() {
           <label htmlFor="oldPassword" className="mb-1 block text-sm font-medium text-text-primary">
             Current password
           </label>
-          <input
-            id="oldPassword"
-            type="password"
-            {...register('oldPassword')}
-            className="w-full rounded-lg border border-border px-3 py-2 text-text-primary focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-          />
+          <PasswordInput id="oldPassword" {...register('oldPassword')} />
           {errors.oldPassword && (
             <p className="mt-1 text-sm text-danger">{errors.oldPassword.message}</p>
           )}
@@ -197,12 +193,7 @@ function PasswordForm() {
           <label htmlFor="newPassword" className="mb-1 block text-sm font-medium text-text-primary">
             New password
           </label>
-          <input
-            id="newPassword"
-            type="password"
-            {...register('newPassword')}
-            className="w-full rounded-lg border border-border px-3 py-2 text-text-primary focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-          />
+          <PasswordInput id="newPassword" {...register('newPassword')} />
           {errors.newPassword && (
             <p className="mt-1 text-sm text-danger">{errors.newPassword.message}</p>
           )}
@@ -212,12 +203,7 @@ function PasswordForm() {
           <label htmlFor="confirmPassword" className="mb-1 block text-sm font-medium text-text-primary">
             Confirm new password
           </label>
-          <input
-            id="confirmPassword"
-            type="password"
-            {...register('confirmPassword')}
-            className="w-full rounded-lg border border-border px-3 py-2 text-text-primary focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-          />
+          <PasswordInput id="confirmPassword" {...register('confirmPassword')} />
           {errors.confirmPassword && (
             <p className="mt-1 text-sm text-danger">{errors.confirmPassword.message}</p>
           )}

@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import PasswordInput from '../../components/PasswordInput';
 
 const loginSchema = z.object({
   email: z.string().email('Please enter a valid email'),
@@ -70,12 +71,7 @@ function Login() {
             <label htmlFor="password" className="mb-1 block text-sm font-medium text-text-primary">
               Password
             </label>
-            <input
-              id="password"
-              type="password"
-              {...register('password')}
-              className="w-full rounded-lg border border-border px-3 py-2 text-text-primary focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-            />
+            <PasswordInput id="password" {...register('password')} />
             {errors.password && (
               <p className="mt-1 text-sm text-danger">{errors.password.message}</p>
             )}

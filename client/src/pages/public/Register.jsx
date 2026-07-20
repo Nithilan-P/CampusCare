@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import PasswordInput from '../../components/PasswordInput';
 
 const registerSchema = z.object({
   name: z.string().trim().min(1, 'Name is required'),
@@ -80,17 +81,12 @@ function Register() {
           </div>
 
           <div>
-            <label htmlFor="password" className="mb-1 block text-sm font-medium text-text-primary">
-              Password
+            <label htmlFor="oldPassword" className="mb-1 block text-sm font-medium text-text-primary">
+              Current password
             </label>
-            <input
-              id="password"
-              type="password"
-              {...register('password')}
-              className="w-full rounded-lg border border-border px-3 py-2 text-text-primary focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-            />
-            {errors.password && (
-              <p className="mt-1 text-sm text-danger">{errors.password.message}</p>
+            <PasswordInput id="oldPassword" {...register('oldPassword')} />
+            {errors.oldPassword && (
+              <p className="mt-1 text-sm text-danger">{errors.oldPassword.message}</p>
             )}
           </div>
 

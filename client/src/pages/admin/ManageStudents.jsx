@@ -108,13 +108,13 @@ function ManageStudents() {
         <div className="mb-4 rounded-lg bg-danger/10 px-4 py-3 text-sm text-danger">{error}</div>
       )}
 
-      <div className="overflow-hidden rounded-xl border border-border bg-surface shadow-sm">
+      <div className="overflow-x-auto rounded-xl border border-border bg-surface shadow-sm">
         {loading ? (
           <p className="p-6 text-sm text-text-secondary">Loading...</p>
         ) : filteredStudents.length === 0 ? (
           <p className="p-6 text-sm text-text-secondary">No students found.</p>
         ) : (
-          <table className="w-full text-left text-sm">
+          <table className="w-full min-w-[700px] text-left text-sm">
             <thead className="border-b border-border bg-background">
               <tr>
                 <th className="px-4 py-3 font-medium text-text-secondary">Name</th>

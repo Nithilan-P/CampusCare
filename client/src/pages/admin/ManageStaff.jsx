@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { getUsers, updateUser, deleteUser, createStaff } from '../../api/users';
+import PasswordInput from '../../components/PasswordInput';
 
 const createStaffSchema = z.object({
   name: z.string().trim().min(1, 'Name is required'),
@@ -71,11 +72,7 @@ function CreateStaffForm({ onCreated }) {
 
         <div>
           <label className="mb-1 block text-sm font-medium text-text-primary">Password</label>
-          <input
-            type="password"
-            {...register('password')}
-            className="w-full rounded-lg border border-border px-3 py-2 text-sm text-text-primary focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-          />
+          <PasswordInput {...register('password')} />
           {errors.password && <p className="mt-1 text-sm text-danger">{errors.password.message}</p>}
         </div>
 
@@ -227,13 +224,13 @@ function ManageStaff() {
         <div className="mb-4 rounded-lg bg-danger/10 px-4 py-3 text-sm text-danger">{error}</div>
       )}
 
-      <div className="overflow-hidden rounded-xl border border-border bg-surface shadow-sm">
+      <div className="overflow-x-auto rounded-xl border border-border bg-surface shadow-sm">
         {loading ? (
           <p className="p-6 text-sm text-text-secondary">Loading...</p>
         ) : filteredStaff.length === 0 ? (
           <p className="p-6 text-sm text-text-secondary">No staff found.</p>
         ) : (
-          <table className="w-full text-left text-sm">
+          <table className="w-full min-w-[700px] text-left text-sm">
             <thead className="border-b border-border bg-background">
               <tr>
                 <th className="px-4 py-3 font-medium text-text-secondary">Name</th>
